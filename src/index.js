@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
+import "element-theme-default";
 import RepositoryTable from "./components/RepositoryTable";
 import RepositoryDetail from "./components/RepositoryDetail";
 import GitHubAPI from "./services/GitHubAPI";
+import { Loading } from "element-react";
 
 import "./styles.css";
 
@@ -21,15 +22,14 @@ class App extends Component {
   }
 
   getRepositories() {
-    GitHubAPI.getRepositories(this.state.username).then(
-      tableData => {
-        console.log(tableData);
-        this.setState(prevState => ({
+    GitHubAPI.getRepositories(this.state.username).then(tableData => {
+      this.setState(prevState => {
+        return {
           ...prevState,
           tableData
-        }));
-      }
-    );
+        };
+      });
+    });
   }
 
   selectRepository(selectedRepository) {
@@ -48,23 +48,21 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        {!this.state.selectedRepository && (
-          <RepositoryTable
-            username={this.state.username}
-            tableData={this.state.tableData}
-            selectRepository={this.selectRepository.bind(
-              this
-            )}
-          />
-        )}
+      <div className="App container">
+        {!this.state.tableData && <Loading fullscreen={true} />}
+        {!this.state.selectedRepository &&
+          this.state.tableData && (
+            <RepositoryTable
+              username={this.state.username}
+              tableData={this.state.tableData}
+              selectRepository={this.selectRepository.bind(this)}
+            />
+          )}
 
         {this.state.selectedRepository && (
           <RepositoryDetail
             repository={this.state.selectedRepository}
-            removeSelectedRepository={this.removeSelectedRepository.bind(
-              this
-            )}
+            removeSelectedRepository={this.removeSelectedRepository.bind(this)}
           />
         )}
       </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 export default props => (
   <svg
-    fill="currentColor"
+    fill={props.color ? props.color : "currentColor"}
     preserveAspectRatio="xMidYMid meet"
     height={props.height ? props.height : "1em"}
     height={props.width ? props.width : "1em"}
