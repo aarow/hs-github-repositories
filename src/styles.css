@@ -22,3 +22,7 @@ a:hover {
   overflow: hidden;
   overflow-y: auto;
 }
+
+.clickable {
+  cursor: pointer;
+}

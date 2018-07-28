@@ -32,7 +32,6 @@ export default class RepositoryTable extends Component {
     this.columns = [
       {
         type: "expand",
-        width: "100%",
         expandPannel: data => {
           return (
             <pre className="readme-summary">
@@ -48,9 +47,12 @@ export default class RepositoryTable extends Component {
       {
         label: "Title",
         prop: "name",
-        minWidth: "300px",
+        minWidth: 300,
         render: data => (
-          <div onClick={e => this.props.selectRepository(data)}>
+          <div
+            className="clickable"
+            onClick={e => this.props.selectRepository(data)}
+          >
             <strong>
               {data.name + " "}
               <FontAwesomeIcon icon={faInfoCircle} />
@@ -61,7 +63,7 @@ export default class RepositoryTable extends Component {
       {
         label: "Primary Language",
         prop: "language",
-        width: "180px",
+        width: 180,
         render: data => (data.language ? data.language : "(unspecified)")
       },
       {
@@ -87,7 +89,6 @@ export default class RepositoryTable extends Component {
         prop: "html_url",
         align: "right",
         fit: true,
-        width: 32,
         render: data => (
           <a href={data.html_url} title={data.name} target="_blank">
             <FontAwesomeIcon icon={faArrowAltCircleRight} />
