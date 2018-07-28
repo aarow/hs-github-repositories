@@ -29,11 +29,9 @@ export default props => (
       <Layout.Col sm={8}>
         <RepositoryOwner owner={props.repository.owner} />
       </Layout.Col>
-      {props.repository.has_issues && (
-        <Layout.Col sm={16}>
-          <RepositoryIssues repo={props.repository.full_name} />
-        </Layout.Col>
-      )}
+      <Layout.Col sm={16}>
+        <RepositoryIssues repo={props.repository.full_name} />
+      </Layout.Col>
     </Layout.Row>
   </div>
 );

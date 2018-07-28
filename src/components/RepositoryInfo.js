@@ -19,7 +19,7 @@ export default props => (
     header={
       <Layout.Row type="flex" justify="space-between" align="middle" tag="div">
         <h2>
-          <a href={props.repository.html_url}>
+          <a href={props.repository.html_url} target="_blank">
             <GithubLogo
               width="2rem"
               height="2rem"

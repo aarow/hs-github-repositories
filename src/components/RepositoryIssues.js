@@ -40,7 +40,7 @@ export default class RepositoryIssues extends React.Component {
     super(props);
     this.state = {
       columns,
-      data: null
+      data: []
     };
 
     this.getIssues();
@@ -58,14 +58,17 @@ export default class RepositoryIssues extends React.Component {
   render() {
     return (
       <Card
-        header="Issues"
+        header="Open Issues"
         style={{
           marginBottom: "1rem"
         }}
         bodyStyle={{ padding: 0 }}
       >
-        {console.log("repositoryissues:", this.state.data)}
-        {this.state.data && (
+        {console.log(this.state.data)}
+        {!this.state.data.length && (
+          <div style={{ padding: "18px 20px" }}>No Open Issues</div>
+        )}
+        {!!this.state.data.length && (
           <Table
             style={{ width: "100%" }}
             columns={this.state.columns}
