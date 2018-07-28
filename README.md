@@ -1,3 +1,23 @@
+# HelloSign (HelloFax) Github Repository Viewer
+
+Coding challenge assigned by interviewers at HelloSign.
+
+## Technology
+
+React front end with Github APIs
+
+## Required for setup
+
+1. Clone or download project files
+2. CLI in to project directory
+3. Run `YARN` or `npm install` to restore dependencies
+4. To build, run, test, etc...
+    - `"start": "react-scripts start"`
+    - `"build": "react-scripts build"`
+    - `"test": "react-scripts test --env=jsdom"`
+    - `"eject": "react-scripts eject"`
+
+
 # Problem Description
 
 HelloSign has a collection of public GitHub repositories, which can be seen here via GitHub’s API: https://api.github.com/orgs/HelloFax/repos

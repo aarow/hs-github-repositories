@@ -64,7 +64,6 @@ export default class RepositoryIssues extends React.Component {
         }}
         bodyStyle={{ padding: 0 }}
       >
-        {console.log(this.state.data)}
         {!this.state.data.length && (
           <div style={{ padding: "18px 20px" }}>No Open Issues</div>
         )}
