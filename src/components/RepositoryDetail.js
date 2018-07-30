@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import { Button, Card, Layout } from "element-react";
+import React from "react";
+import { Button, Layout } from "element-react";
 import RepositoryInfo from "./RepositoryInfo";
 import RepositoryOwner from "./RepositoryOwner";
 import RepositoryIssues from "./RepositoryIssues";
-import GithubLogo from "./GitHubLogo";
 
 /*
  - Time Stamps (created, updated etc.)
@@ -14,6 +13,7 @@ import GithubLogo from "./GitHubLogo";
 
 export default props => (
   <div>
+    
     <Button
       style={{ marginBottom: "1rem" }}
       size="mini"

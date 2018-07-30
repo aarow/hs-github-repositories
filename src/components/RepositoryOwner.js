@@ -18,6 +18,7 @@ export default props => (
         <img
           style={styles.avatar}
           src={props.owner.avatar_url}
+          alt={`${props.owner.login}'s Avatar`}
         />
         {props.owner.login}
       </a>

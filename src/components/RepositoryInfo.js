@@ -4,15 +4,6 @@ import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faStar, faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import GithubLogo from "./GitHubLogo";
-const styles = {
-  avatar: {
-    width: "100%",
-    maxWidth: 44,
-    verticalAlign: "middle",
-    display: "inline-block",
-    margin: "0 1rem 0 0"
-  }
-};
 
 export default props => (
   <Card
@@ -21,8 +12,8 @@ export default props => (
         <h2>
           <a href={props.repository.html_url} target="_blank">
             <GithubLogo
-              width="2rem"
-              height="2rem"
+              width="1.4em"
+              height="1.4em"
               style={{ marginRight: "1rem", verticalAlign: "middle" }}
             />
             {props.repository.name}

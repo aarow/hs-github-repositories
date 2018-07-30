@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Card } from "element-react";
+import { Table, Card, Input } from "element-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleRight,
@@ -22,7 +22,8 @@ export default class RepositoryTable extends Component {
     super(props);
 
     this.state = {
-      descriptions: []
+      descriptions: [],
+      searchText: ""
     };
 
     const columnStandards = {
@@ -85,7 +86,7 @@ export default class RepositoryTable extends Component {
         width: columnStandards.standardWidth
       },
       {
-        label: <GithubLogo width="1.2rem" height="1.2rem" />,
+        label: <GithubLogo width="1.4em" height="1.4em" />,
         prop: "html_url",
         align: "right",
         fit: true,
@@ -110,9 +111,9 @@ export default class RepositoryTable extends Component {
     this.setState(prevState => {
       return {
         ...prevState,
-        descriptions: props.tableData.map(repo => {
-          return { id: repo.id, description: "" };
-        })
+        descriptions: props.tableData.map(repo => (
+          { id: repo.id, description: "" }
+        ))
       };
     });
   }
@@ -141,6 +142,10 @@ export default class RepositoryTable extends Component {
     });
   }
 
+  handleSearch(searchText) {
+    this.setState({searchText});
+  }
+
   render() {
     return (
       <Card
@@ -148,16 +153,26 @@ export default class RepositoryTable extends Component {
         header={
           <h2>
             <GithubLogo
-              width="2rem"
-              height="2rem"
+              width="1.4em"
+              height="1.4em"
               style={{ marginRight: "1rem", verticalAlign: "middle" }}
             />
             {this.props.username}
           </h2>
         }
       >
+
+        <Input 
+          icon="search"
+          value={this.state.searchText} 
+          onChange={this.handleSearch.bind(this)}  
+          placeholder="Search  repositorie titles"
+          style={{margin: "1em", width: "66%"}} />
+
         <Table
-          data={this.props.tableData}
+          data={this.props.tableData.filter(repo => {
+            return repo.name.includes(this.state.searchText);
+          })}
           columns={this.columns}
           onExpand={(row, expanded) => {
             this.getDescription(row);

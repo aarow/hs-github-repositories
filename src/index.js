@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { Form, Input, Button } from "element-react";
 import "element-theme-default";
 import RepositoryTable from "./components/RepositoryTable";
 import RepositoryDetail from "./components/RepositoryDetail";
@@ -12,17 +13,20 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    const username = 'hellofax';
+
     this.state = {
-      username: "hellofax",
+      username: username,
       tableData: [],
-      selectedRepository: null
+      selectedRepository: null,
+      searchText: ""
     };
 
-    this.getRepositories();
+    this.getRepositories(username);
   }
 
-  getRepositories() {
-    GitHubAPI.getRepositories(this.state.username).then(tableData => {
+  getRepositories(username) {
+    GitHubAPI.getRepositories(username).then(tableData => {
       this.setState(prevState => {
         return {
           ...prevState,
@@ -46,9 +50,44 @@ class App extends Component {
     }));
   }
 
+  handleInput(searchText) {
+    this.setState({searchText});
+  }
+
+  handleSearch(e) {
+    e.preventDefault();
+    console.log(this.state.searchText)
+    this.setState(prevState => {
+      this.getRepositories(this.state.searchText);
+      return {
+        username: prevState.searchText,
+        selectedRepository: null,
+        searchText: ""
+      }
+    });
+  }
+
   render() {
     return (
       <div className="App container">
+        <Form 
+          inline={true}
+          onSubmit={this.handleSearch.bind(this)} 
+          style={{margin: "1em 0"}}
+          >
+          <Form.Item>
+            <Input 
+              icon="search"
+              placeholder="Search  Github users"
+              ref="searchText"
+              value={this.state.searchText}
+              onChange={this.handleInput.bind(this)}
+              />
+          </Form.Item>
+          <Form.Item>
+            <Button nativeType="submit" type="primary">Search</Button>
+          </Form.Item>
+        </Form>
         {!this.state.tableData && <Loading fullscreen={true} />}
         {!this.state.selectedRepository &&
           this.state.tableData && (

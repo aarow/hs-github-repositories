@@ -4,7 +4,7 @@ import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { Table, Icon, Card } from "element-react";
+import { Table, Card } from "element-react";
 
 const columns = [
   {
@@ -64,6 +64,7 @@ export default class RepositoryIssues extends React.Component {
         }}
         bodyStyle={{ padding: 0 }}
       >
+        {console.log(this.state.data)}
         {!this.state.data.length && (
           <div style={{ padding: "18px 20px" }}>No Open Issues</div>
         )}
