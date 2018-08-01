@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Table, Card, Input } from "element-react";
+import { Markdown } from 'react-showdown';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleRight,
@@ -35,13 +36,11 @@ export default class RepositoryTable extends Component {
         type: "expand",
         expandPannel: data => {
           return (
-            <pre className="readme-summary">
-              {
-                this.state.descriptions.find(desc => {
-                  return desc.id === data.id;
-                }).description
-              }
-            </pre>
+            <div className="readme-summary">
+            <Markdown markup={ this.state.descriptions.find(desc => {
+                    return desc.id === data.id;
+                  }).description } />
+            </div>
           );
         }
       },
