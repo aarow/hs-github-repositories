@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux';
 import { Table, Card, Input } from "element-react";
 import { Markdown } from 'react-showdown';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +19,7 @@ import GitHubAPI from "../services/GitHubAPI";
  - Link to GitHub repo page (to be opened in new tab)
  */
 
-export default class RepositoryTable extends Component {
+class RepositoryTable extends Component {
   constructor(props) {
     super(props);
 
@@ -156,7 +157,7 @@ export default class RepositoryTable extends Component {
               height="1.4em"
               style={{ marginRight: "1rem", verticalAlign: "middle" }}
             />
-            {this.props.username}
+            {this.props.username} {this.props.isFetching}
           </h2>
         }
       >
@@ -181,3 +182,20 @@ export default class RepositoryTable extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => {
+  const { repos } = state;
+  const {
+    isFetching,
+    items
+  } = repos;
+
+  return {
+    repos,
+    isFetching,
+    items
+  }
+}
+
+export default connect(mapStateToProps)(RepositoryTable);

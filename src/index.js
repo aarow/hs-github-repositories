@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Form, Input, Button } from "element-react";
 import "element-theme-default";
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
+import reducer from './reducers';
 import RepositoryTable from "./components/RepositoryTable";
 import RepositoryDetail from "./components/RepositoryDetail";
 import GitHubAPI from "./services/GitHubAPI";
@@ -109,5 +112,14 @@ class App extends Component {
   }
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+
+const store = createStore(
+  reducer
+)
+
+ReactDOM.render(
+  <Provider store={store} >
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
