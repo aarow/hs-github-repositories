@@ -17,10 +17,20 @@ a:hover {
 
 .readme-summary {
   white-space: pre-wrap;
-  color: rgb(145, 145, 145);
+  color: rgb(95, 95, 95);
   max-height: 300px;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.readme-summary__loader {
+  height: 60px;
+}
+
+.readme-summary code {
+  background: rgb(255, 255, 223);
+  padding: 4px;
+  display: inline-block;
 }
 
 .clickable {

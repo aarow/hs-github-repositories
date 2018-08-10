@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-import { Table, Card, Input } from "element-react";
-import { Markdown } from 'react-showdown';
+import { Table, Card, Input, Spinner } from "element-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleRight,
@@ -9,6 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import GithubLogo from "./GitHubLogo";
 import GitHubAPI from "../services/GitHubAPI";
+import {requestRepos, receiveRepos} from "../actions";
+import RepositoryReadMe from './RepositoryReadMe';
+
 /*
  - Name (include description in line below name in lighter print)
  - Last Updated
@@ -35,15 +37,9 @@ class RepositoryTable extends Component {
     this.columns = [
       {
         type: "expand",
-        expandPannel: data => {
-          return (
-            <div className="readme-summary">
-            <Markdown markup={ this.state.descriptions.find(desc => {
-                    return desc.id === data.id;
-                  }).description } />
-            </div>
-          );
-        }
+        expandPannel: data => (
+            <RepositoryReadMe description={this.state.descriptions[data.id].description} />
+        )
       },
       {
         label: "Title",
@@ -52,7 +48,10 @@ class RepositoryTable extends Component {
         render: data => (
           <div
             className="clickable"
-            onClick={e => this.props.selectRepository(data)}
+            onClick={e => {
+              // this.props.onRepoClick();
+              this.props.selectRepository(data)
+            }}
           >
             <strong>
               {data.name + " "}
@@ -99,6 +98,10 @@ class RepositoryTable extends Component {
     ];
   }
 
+  componentDidMount() {
+    this.props.receiveRepos();
+  }
+
   componentWillMount() {
     this.setupDescriptionsInState(this.props);
   }
@@ -109,34 +112,36 @@ class RepositoryTable extends Component {
 
   setupDescriptionsInState(props) {
     this.setState(prevState => {
+      if(!props.tableData) return;
+
+      const descriptions = {};
+      
+      props.tableData.forEach(repo => {
+        descriptions[repo.id] = {id: repo.id, description: ''}
+      })
+
       return {
         ...prevState,
-        descriptions: props.tableData.map(repo => (
-          { id: repo.id, description: "" }
-        ))
+        descriptions
       };
     });
   }
 
   getDescription(repo) {
-    const description = this.state.descriptions.find(desc => {
-      return desc.id === repo.id;
-    }).description;
+    if (!!this.state.descriptions[repo.id].description.trim()) return;
 
-    if (!!description.trim()) return;
-
-    GitHubAPI.getReadMe(repo.full_name).then(newDesc => {
+    GitHubAPI.getReadMe(repo.full_name).then(description => {
       this.setState(prevState => {
         return {
           ...prevState,
-          descriptions: prevState.descriptions.map(desc => {
-            if (desc.id === repo.id) {
-              return {
-                id: desc.id,
-                description: newDesc
-              };
-            } else return desc;
-          })
+          descriptions: {
+            ...prevState.descriptions,
+
+            [repo.id]: {
+              [repo.id]: repo.id,
+              description
+            }
+          }
         };
       });
     });
@@ -157,32 +162,50 @@ class RepositoryTable extends Component {
               height="1.4em"
               style={{ marginRight: "1rem", verticalAlign: "middle" }}
             />
-            {this.props.username} {this.props.isFetching}
+            {this.props.username}
           </h2>
         }
       >
-
         <Input 
           icon="search"
           value={this.state.searchText} 
           onChange={this.handleSearch.bind(this)}  
-          placeholder="Search  repositorie titles"
+          placeholder="Search repository titles"
           style={{margin: "1em", width: "66%"}} />
 
-        <Table
-          data={this.props.tableData.filter(repo => {
-            return repo.name.includes(this.state.searchText);
-          })}
-          columns={this.columns}
-          onExpand={(row, expanded) => {
-            this.getDescription(row);
-          }}
-        />
+        {
+          this.props.isFetching && <Spinner />
+        }
+
+        {
+          !this.props.isFetching && (
+            <Table
+              data={this.props.tableData && this.props.tableData.filter(repo => {
+                return repo.name.includes(this.state.searchText);
+              })}
+              columns={this.columns}
+              onExpand={(row, expanded) => {
+                this.getDescription(row);
+              }}
+              emptyText="No repositories found for this user"
+            />
+          )
+        }
       </Card>
     );
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    requestRepos: () => {
+      dispatch(requestRepos())
+    },
+    receiveRepos: () => {
+      dispatch(receiveRepos())
+    }
+  }
+}
 
 const mapStateToProps = state => {
   const { repos } = state;
@@ -198,4 +221,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(RepositoryTable);
+export default connect(mapStateToProps, mapDispatchToProps)(RepositoryTable);

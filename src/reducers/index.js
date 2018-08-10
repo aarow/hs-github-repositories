@@ -1,15 +1,20 @@
 import {combineReducers} from 'redux';
-import { REQUEST_REPOS } from '../actions';
+import { REQUEST_REPOS, RECEIVE_REPOS } from '../actions';
 
-const repos = (state = {
+function repos(state = {
   isFetching: false,
   items: []
-}, action) => {
+}, action) {
   switch (action.type) {
     case REQUEST_REPOS:
       return {
         ...state,
-        isFetching: true
+        isFetching: action.isFetching
+      }
+    case RECEIVE_REPOS:
+      return {
+        ...state,
+        isFetching: action.isFetching
       }
     default:
       return state;

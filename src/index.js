@@ -81,7 +81,7 @@ class App extends Component {
           <Form.Item>
             <Input 
               icon="search"
-              placeholder="Search  Github users"
+              placeholder="Search Github users"
               ref="searchText"
               value={this.state.searchText}
               onChange={this.handleInput.bind(this)}
@@ -91,15 +91,12 @@ class App extends Component {
             <Button nativeType="submit" type="primary">Search</Button>
           </Form.Item>
         </Form>
-        {!this.state.tableData && <Loading fullscreen={true} />}
-        {!this.state.selectedRepository &&
-          this.state.tableData && (
-            <RepositoryTable
-              username={this.state.username}
-              tableData={this.state.tableData}
-              selectRepository={this.selectRepository.bind(this)}
-            />
-          )}
+
+        <RepositoryTable
+          username={this.state.username}
+          tableData={this.state.tableData}
+          selectRepository={this.selectRepository.bind(this)}
+        />
 
         {this.state.selectedRepository && (
           <RepositoryDetail
@@ -114,7 +111,8 @@ class App extends Component {
 
 
 const store = createStore(
-  reducer
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
 ReactDOM.render(

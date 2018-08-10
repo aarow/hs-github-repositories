@@ -4,6 +4,16 @@ export const SELECT_REPO = 'SELECT_REPO';
 export const REQUEST_ISSUES = 'REQUEST_ISSUES';
 export const RECEIVE_ISSUES = 'RECEIVE_ISSUES';
 
-export const requestRepos = gitOrg => ({
-  type: REQUEST_REPOS
-})
+export function  requestRepos() {
+  return {
+    type: REQUEST_REPOS,
+    isFetching: true
+  }
+}
+
+export function  receiveRepos() {
+  return {
+    type: RECEIVE_REPOS,
+    isFetching: false
+  }
+}
