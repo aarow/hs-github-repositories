@@ -15,12 +15,21 @@ a:hover {
   margin: 0 auto;
 }
 
+.el-table__expanded-cell {
+  padding: 0;
+}
+
 .readme-summary {
   white-space: pre-wrap;
   color: rgb(95, 95, 95);
   max-height: 300px;
   overflow: hidden;
   overflow-y: auto;
+  padding: 20px 50px;
+}
+
+.readme-summary > div {
+  max-width:70vw;
 }
 
 .readme-summary__loader {
@@ -31,6 +40,8 @@ a:hover {
   background: rgb(255, 255, 223);
   padding: 4px;
   display: inline-block;
+  font-weight: 600;
+  white-space: pre-wrap;
 }
 
 .clickable {
