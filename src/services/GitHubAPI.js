@@ -1,12 +1,30 @@
 import axios from "axios";
 const GITHUB_URL = "https://api.github.com";
 const GITHUB_RAW_URL = "https://raw.githubusercontent.com"
+// const AUTH_TOKEN = '';
+axios.defaults.headers.common['Authorization'] = "Basic aarow";
 
 export default class GitHubAPI {
   static getRepositories(userName) {
     return axios
       .get(`${GITHUB_URL}/users/${userName}/repos`)
       .then(data => data.data)
+      .catch(err => console.log(err.response));
+  }
+
+  static searchUsers(query="") {
+    return axios
+      .get(`${GITHUB_URL}/search/users?q=${query.toLowerCase().trim()}`)
+      .then(data => {
+        data = data.data.items
+        .slice(0,5)
+        .map(dataItem => {
+          return {
+            value: dataItem.login
+          }
+        });
+        return data
+      })
       .catch(err => console.log(err.response));
   }
 
